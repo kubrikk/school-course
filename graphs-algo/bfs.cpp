@@ -19,12 +19,12 @@ using namespace std;
 
 int main() {
 
-    // n -- количество вершин, m -- количество рёбер
+    // `n` -- количество вершин, `m` -- количество рёбер
     int n, m;
     cin >> n >> m;
 
     /*
-        ПРИМ. память под хранение информации о вершинах выделяется как "n + 1"
+        ПРИМ. память под хранение информации о вершинах выделяется как `n + 1`
         с целью возможности обращения к вершинам по их имени (первые n 
         натуральных чисел)
     */ 
@@ -34,11 +34,11 @@ int main() {
     // и массив меток для всех вершин
     vector< int > is_visited(n + 1, 0);
 
-    // ввод информации о m рёбрах
+    // ввод информации о `m` рёбрах
     for (int i = 0; i < m; i++) {
         int first_vertex, second_vertex;
         cin >> first_vertex >> second_vertex;
-        // устанавливаем связь ребра (first_vertex, second_vertex)
+        // устанавливаем связь ребра (`first_vertex`, `second_vertex`)
         graph[first_vertex].push_back(second_vertex);
         graph[second_vertex].push_back(first_vertex);
     }
@@ -71,7 +71,7 @@ int main() {
     }
 
     // выведим информацию о вершинах, входящих и не входящих в одну компоненту
-    // связности с вершиной start_vertex
+    // связности с вершиной `start_vertex`
     for (int i = 1; i < n + 1; i++) {
         cout << is_visited[i] << ' ';
     }
