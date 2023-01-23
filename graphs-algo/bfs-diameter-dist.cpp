@@ -13,13 +13,13 @@ using namespace std;
 
 int furthest_vertex(
     int start_vertex, 
-    vector< vector< int > >& graph
+    vector< vector< int > >& graph,
+    vector< int >& dist
 ) {
     
     queue< int > bfs_queue;
-    bfs_queue.push(start_vetrex);
-    vector< int > dist(graph.size(), -1);
-    dist[start_vetrex] = 0;
+    bfs_queue.push(start_vertex);
+    dist[start_vertex] = 0;
 
     while (!bfs_queue.empty()) {
 
@@ -29,7 +29,7 @@ int furthest_vertex(
         for (int i = 0; i < graph[this_vertex].size(); i++) {
             if (dist[graph[this_vertex][i]] == -1) {
                 bfs_queue.push(graph[this_vertex][i]);
-                dist[graph[this_vertex][i]] = dist[this_vertex];
+                dist[graph[this_vertex][i]] = dist[this_vertex] + 1;
             }
         }
     }
@@ -45,13 +45,18 @@ int furthest_vertex(
 }
 
 int diameter(vector< vector< int > >& graph) {
+
+    vector< int > dist(graph.size(), -1);
+    int first_diameter_vertex = furthest_vertex(1, graph, dist);
     
-    int result = furthest_vertex(
-        furthest_vertex(1, dist, graph),
-        graph
-    );
-    
-    return dist[second_vertex];
+
+    for (int i = 0; i < dist.size(); i++) {
+        dist[i] = -1;
+    }
+    int second_diameter_vertex = 
+        furthest_vertex(first_diameter_vertex, graph, dist);
+
+    return dist[second_diameter_vertex];
 }
 
 
