@@ -9,4 +9,5 @@
 ## 📖 СОДЕРЖАНИЕ  
 > содрежание будет описано, когда у меня будет время
 
-
+## License
+[![forthebadge](https://forthebadge.com/images/badges/cc-0.svg)](https://forthebadge.com)
