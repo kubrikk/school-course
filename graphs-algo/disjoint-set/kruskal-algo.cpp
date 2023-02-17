@@ -64,23 +64,41 @@ struct DisjointSet {
 
 int main() {
 
-    // количество элементов множества, и количество команд объединения
     int n, m;
     cin >> n >> m;
 
     DisjointSet djs(n);
+
+    // первое значение тройки -- вес ребра, второе и третье -- вершины
+    vector< pair< int, pair< int, int > > > edges(n);
+    // ввод рёбер
     for (int i = 0; i < m; i++) {
-        // элементы `fir_node` и `sec_node` в одном множестве
-        int fir_node, sec_node;
-        cin >> fir_node >> sec_node;
-        djs.merge(fir_node, sec_node);
+        // вводятся номера вершин, образующих ребро, и их вес
+        cin >> edges[i].second.first >> edges[i].second.second
+            >> edges[i].first;
     }
 
-    // вывод информации о каждом элементе 
-    // {номер элемента, номер `корня`, размер множества}
-    for (int i = 0; i < n; i++) {
-        cout << i << ": " << djs.get_id_set(i) << ": " 
-             << djs.sizes[djs.get_id_set(i)] << endl;
+    // сортируем лексикографически тройки (для нас важна сортировка по весу)
+    sort(edges.begin(), edges.end());
+    vector< pair< int, pair< int, int > > > result; // массив для хранения 
+                                                    // остовного дерева
+    // последовательно перебираем рёбра (отсортированные по весу)
+    for (int i = 0; i < m; i++) {
+        int first_vertex = edges[i].second.first;
+        int second_vertex = edges[i].second.second;
+
+        // если ребро связывает две компоненты связности
+        if (djs.get_id_set[first_vertex] != djs.get_id_set[second_vertex]) {
+            // используем его
+            result.push_back(edges[i]);
+            djs.merge(first_vertex, second_vertex);
+        }
+    }
+    
+    // вывод информации о рёбрах минимального остова
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i].second.first << ' ' << result[i].second.second << ' '
+             << result[i].first << endl;
     }
 
     return 0;
