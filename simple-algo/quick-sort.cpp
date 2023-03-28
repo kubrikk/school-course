@@ -1,54 +1,67 @@
 #include <iostream>
 
-
 using namespace std;
 
 
-void quick_sort(int* arr, int size) {
+/**
+ * Функция сортировки массива целых чисел (алгоритм быстрой сортировки).
+ * Все изменения происходят в массиве, который передаётся в качестве параметра.
+ *
+ * Параметры:
+ *  `arr`  : int_ptr    -- указатель на массив целых чисел (первый элемент);
+ *  `size` : int        -- размер массива.
+ * 
+ * Возвращаемое значение: void.
+ */
+void quick_sort(int* arr, int size) 
+{
 
-    if (size < 2) {
-        return;
-    }
+    // Если рассматриваемый массив содержит не более одного элемента, считаем
+    // его отсортированным.
+    if (size < 2) { return; }
 
+    // Иначе, выбираем опорное `cur` значение как центральный элемент массива.
     int cur = arr[size / 2];
 
-    int left = 0;
-    int right = size - 1;
-    while (left < right) {
-
-        while (arr[left] < cur) {
-            left++; 
-        }
-        while (arr[right] > cur) {
-            right--;
-        }
-        if (left > right) {
-            break;
-        }
-
+    // Переставляем элементы массива так, чтобы в префиксе содержались
+    // все элементы, меньшие значение опорного `cur`, в постфиксе -- большие:
+    int left = 0;           // - граница префикса;
+    int right = size - 1;   // - граница постфикса.
+    
+    // Итерируемся, пока префикс и постфикс не пересекаются.
+    while (left < right) 
+    {
+        // Если в префиксе содержится значение, которое не меньше опорного,
+        while (arr[left] < cur) { left++; }
+        // а в постфиксе -- значение, которое не больше опорного,
+        while (arr[right] > cur) { right--; }
+        // и в случае, если постфикс и префикс не пересекаются,
+        if (left > right) { break; }
+        // то меняем выбранные элементы местами.
         swap(arr[left++], arr[right--]);
-
     }
 
-    quick_sort(arr, right + 1);
-    quick_sort(arr + left, size - left);
-
+    // Выполняем алгоритм сортировки на выделенных префиксе и постфиксе:
+    quick_sort(arr, right + 1);             // - сортировка префикса;
+    quick_sort(arr + left, size - left);    // - сортировка постфикса.
 }
 
 
-int main() {
-
+int main() 
+{
     int n;
     cin >> n;
 
     int arr[n];
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) 
+    {
         cin >> arr[i];
     }
 
     quick_sort(arr, n);
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) 
+    {
         cout << arr[i] << ' ';
     }
     cout << endl;

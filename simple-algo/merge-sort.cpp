@@ -3,75 +3,109 @@
 using namespace std;
 
 
-void __merge(int* l_arr, int l_size, int* r_arr, int r_size, int* res) {
+/**
+ * Служебная ункция слияния двух отсортированных массивов.
+ *
+ * Параметры:
+ *  `l_arr`   : int_ptr    -- указатель на первый массив целых чисел;
+ *  `l_size`  : int        -- размер первого массива;
+ *  `r_arr`   : int_ptr    -- указатель на второй массив целых чисел;
+ *  `r_size`  : int        -- размер второго массива;
+ *  `res`     : int_ptr    -- указатель на результрующий массив.
+ * 
+ * Возвращаемое значение: void.
+ */
+void __merge(int* l_arr, int l_size, int* r_arr, int r_size, int* res) 
+{
+    // Используем два указателя для слияния двух массивов:
+    int left = 0;   // указатель на элемент первого массива;
+    int right = 0;  // указатель на элемент второго массива.
 
-    int left = 0;
-    int right = 0;
-    int res_ind = 0;
-
-    while (left < l_size && right < r_size) {
-        if (l_arr[left] < r_arr[right]) {
-            res[res_ind] = l_arr[left];
-            left++;
+    // Пока можем сравнивать элементы двух массивов 
+    // (пока существуют нерассмотренные элементы):
+    while (left < l_size && right < r_size) 
+    {
+        // если рассматриваемый элемент первого массива меньше элемента второго
+        if (l_arr[left] < r_arr[right]) 
+        {
+            // записываем элемент первого массива в рез. массив,
+            res[left + right] = l_arr[left++];
         }
-        else {
-            res[res_ind] = r_arr[right];
-            right++;
+        else 
+        {
+            // иначе записываем в рез. массив элемент второго массива.
+            res[left + right] = r_arr[right++];
         }
-        res_ind++;
     }
 
-    while (left < l_size) {
-        res[res_ind] = l_arr[left];
-        left++;
-        res_ind++;
+    // Если мы рассмотрели все элементы в одном из массивов -- необходимо 
+    // учесть оставшиеся элементы из другого:
+    // - если в первом массиве остались элементы,
+    while (left < l_size) 
+    {   
+        // добавим их в рез. массив;
+        res[left + right] = l_arr[left++];
     }
-    while (right < r_size) {
-        res[res_ind] = r_arr[right];
-        right++;
-        res_ind++;
+    // - если во втором массиве остались элементы,
+    while (right < r_size) 
+    {
+        // добавим их в рез. массив.
+        res[left + right] = r_arr[right++];
     }
-
 }
 
 
-void merge_sort(int* arr, int size) {
+/**
+ * Функция сортировки массива целых чисел (алгоритм сортировки слиянием).
+ * Все изменения происходят в массиве, который передаётся в качестве параметра.
+ *
+ * Параметры:
+ *  `arr`  : int_ptr    -- указатель на массив целых чисел (первый элемент);
+ *  `size` : int        -- размер массива.
+ * 
+ * Возвращаемое значение: void.
+ */
+void merge_sort(int* arr, int size) 
+{
+    // Если рассматриваемый массив содержит не более одного элемента, считаем
+    // его отсортированным.
+    if (size < 2) { return; }
 
-    if (size < 2) {
-        return;
-    }
+    // Делим массив пополам:
+    int mid = size / 2;                 // находим середину массива;
+    merge_sort(arr, mid);               // запускаем алгоритм для левой
+    merge_sort(arr + mid, size - mid);  // и для правой частей.
 
-    int mid = size / 2;
-    merge_sort(arr, mid);
-    merge_sort(arr + mid, size - mid);
+    // Производим процедуру слияния, используя в качестве буфера доп. массив:
+    int temp[size];                                     // - буфер;
+    __merge(arr, mid, arr + mid, size - mid, temp);     // - слияние.
 
-    int temp[size];
-    __merge(arr, mid, arr + mid, size - mid, temp);
-
-    for (int i = 0; i < size; i++) {
+    // Записываем результат слияния из буфера в исходный массив.
+    for (int i = 0; i < size; i++) 
+    {
         arr[i] = temp[i];
     }
-
 }
 
 
-int main() {
-
+int main() 
+{
     int n;
     cin >> n;
 
     int arr[n];
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) 
+    {
         cin >> arr[i];
     }
 
     merge_sort(arr, n);
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) 
+    {
         cout << arr[i] << ' ';
     }
     cout << endl;
 
     return 0;
-
 }
