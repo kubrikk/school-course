@@ -13,8 +13,7 @@ using namespace std;
  * 
  * Возвращаемое значение: void.
  */
-void quick_sort(int* arr, int size) 
-{
+void quick_sort(int* arr, int size) {
 
     // Если рассматриваемый массив содержит не более одного элемента, считаем
     // его отсортированным.
@@ -29,8 +28,7 @@ void quick_sort(int* arr, int size)
     int right = size - 1;   // - граница постфикса.
     
     // Итерируемся, пока префикс и постфикс не пересекаются.
-    while (left < right) 
-    {
+    while (left < right) {
         // Если в префиксе содержится значение, которое не меньше опорного,
         while (arr[left] < cur) { left++; }
         // а в постфиксе -- значение, которое не больше опорного,
@@ -47,21 +45,18 @@ void quick_sort(int* arr, int size)
 }
 
 
-int main() 
-{
+int main() {
     int n;
     cin >> n;
 
     int arr[n];
-    for (int i = 0; i < n; i++) 
-    {
+    for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
 
     quick_sort(arr, n);
 
-    for (int i = 0; i < n; i++) 
-    {
+    for (int i = 0; i < n; i++) {
         cout << arr[i] << ' ';
     }
     cout << endl;

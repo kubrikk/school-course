@@ -1,35 +1,51 @@
 #include <iostream>
-#include <vector>
-
 
 using namespace std;
 
 
-bool next_permutation(vector< int >& seq) {
+/**
+ * Функция получения следующей лексикографической перестановки целых чисел
+ * (алгоритм Нарайаны).
+ *
+ * Параметры:
+ *  `arr`  : int_ptr    -- указатель на массив целых чисел;
+ *  `size` : int        -- размер массива.
+ * 
+ * Возвращаемое значение: 
+ *         : bool       -- была ли получена следующая перестановка.
+ */
+bool next_permutation(int* arr, int size) {
 
-    int index = seq.size();
-    for (int i = seq.size() - 1; i > 0; i--) {
-        if (seq[i] > seq[i - 1]) {
-            index = i;
+    // Находим максимальный невозрастающий префикс:
+    int index = size;   // - граница префикса;
+    // перебираем все элементы массива справа-налево,
+    for (int i = size - 1; i > 0; i--) {
+        // если находим локальный максимум (точку перегиба), 
+        if (arr[i] > arr[i - 1]) {
+            index = i;  // то считаем его границей префикса,
+            break;      // следующие элементы нас не интересуют.
+        }
+    }
+
+    // Если максимально возможным искомым префиксом является весь массив,
+    // то следующую перестановку получить невозможно -- имеем максимальную.
+    if (index == size) { return 0; }
+
+    // Выбираем минимальный элемент из префикса, превосходящий по значению
+    // элемент, стоящий перед префиксом, 
+    for (int i = size - 1; i > index - 1; i--) {
+        if (arr[i] > arr[index - 1]) {
+            // меняем из местами.
+            swap(arr[i], arr[index - 1]);
             break;
         }
     }
 
-    if (index == seq.size()) {
-        return 0;
-    }
-
-    for (int i = seq.size() - 1; i > index - 1; i--) {
-        if (seq[i] > seq[index - 1]) {
-            swap(seq[i], seq[index - 1]);
-            break;
-        }
-    }
-
-    int dist = seq.size() - index;
-    int seq_size = seq.size();
+    // Переворачиваем префикс.
+    int dist = size - index;
+    int seq_size = size;
     for (int i = 0; i < dist / 2; i++) {
-        swap(seq[index + i], seq[seq_size - 1 - i]);
+        swap(arr[index + i], arr[seq_size - 1 - i]);
     }
 
     return 1;
@@ -41,17 +57,16 @@ int main() {
     int n;
     cin >> n;
 
-    vector< int > seq(n);
-    for (int i = 0; i < n; i++) {
-        seq[i] = i + 1;
-    }
+    int arr[n];
+    for (int i = 0; i < n; i++) { arr[i] = i + 1; }
 
     do {
-        for (int i = 0; i < n; i++) {
-            cout << seq[i] << ' ';
+        for (int i = 0; i < n; i++) 
+        {
+            cout << arr[i] << ' ';
         }
         cout << endl;
-    } while(next_permutation(seq));
+    } while(next_permutation(arr, n));
 
     return 0;
 }

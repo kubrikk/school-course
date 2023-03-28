@@ -15,24 +15,22 @@ using namespace std;
  * 
  * Возвращаемое значение: void.
  */
-void __merge(int* l_arr, int l_size, int* r_arr, int r_size, int* res) 
-{
+void __merge(int* l_arr, int l_size, int* r_arr, int r_size, int* res) {
+
     // Используем два указателя для слияния двух массивов:
     int left = 0;   // указатель на элемент первого массива;
     int right = 0;  // указатель на элемент второго массива.
 
     // Пока можем сравнивать элементы двух массивов 
     // (пока существуют нерассмотренные элементы):
-    while (left < l_size && right < r_size) 
-    {
+    while (left < l_size && right < r_size) {
+
         // если рассматриваемый элемент первого массива меньше элемента второго
-        if (l_arr[left] < r_arr[right]) 
-        {
+        if (l_arr[left] < r_arr[right]) {
             // записываем элемент первого массива в рез. массив,
             res[left + right] = l_arr[left++];
         }
-        else 
-        {
+        else {
             // иначе записываем в рез. массив элемент второго массива.
             res[left + right] = r_arr[right++];
         }
@@ -41,14 +39,12 @@ void __merge(int* l_arr, int l_size, int* r_arr, int r_size, int* res)
     // Если мы рассмотрели все элементы в одном из массивов -- необходимо 
     // учесть оставшиеся элементы из другого:
     // - если в первом массиве остались элементы,
-    while (left < l_size) 
-    {   
+    while (left < l_size) {   
         // добавим их в рез. массив;
         res[left + right] = l_arr[left++];
     }
     // - если во втором массиве остались элементы,
-    while (right < r_size) 
-    {
+    while (right < r_size) {
         // добавим их в рез. массив.
         res[left + right] = r_arr[right++];
     }
@@ -65,8 +61,8 @@ void __merge(int* l_arr, int l_size, int* r_arr, int r_size, int* res)
  * 
  * Возвращаемое значение: void.
  */
-void merge_sort(int* arr, int size) 
-{
+void merge_sort(int* arr, int size) {
+    
     // Если рассматриваемый массив содержит не более одного элемента, считаем
     // его отсортированным.
     if (size < 2) { return; }
@@ -81,28 +77,24 @@ void merge_sort(int* arr, int size)
     __merge(arr, mid, arr + mid, size - mid, temp);     // - слияние.
 
     // Записываем результат слияния из буфера в исходный массив.
-    for (int i = 0; i < size; i++) 
-    {
+    for (int i = 0; i < size; i++) {
         arr[i] = temp[i];
     }
 }
 
 
-int main() 
-{
+int main() {
     int n;
     cin >> n;
 
     int arr[n];
-    for (int i = 0; i < n; i++) 
-    {
+    for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
 
     merge_sort(arr, n);
 
-    for (int i = 0; i < n; i++) 
-    {
+    for (int i = 0; i < n; i++) {
         cout << arr[i] << ' ';
     }
     cout << endl;
