@@ -83,6 +83,7 @@ int main() {
     vector< pair< int, pair< int, int > > > result; // массив для хранения 
                                                     // остовного дерева
     // последовательно перебираем рёбра (отсортированные по весу)
+    int res = 0;
     for (int i = 0; i < m; i++) {
         int first_vertex = edges[i].second.first;
         int second_vertex = edges[i].second.second;
@@ -91,15 +92,17 @@ int main() {
         if (djs.get_id_set[first_vertex] != djs.get_id_set[second_vertex]) {
             // используем его
             result.push_back(edges[i]);
+            res += edges[i].first;
             djs.merge(first_vertex, second_vertex);
         }
     }
-    
+    /*
     // вывод информации о рёбрах минимального остова
     for (int i = 0; i < result.size(); i++) {
         cout << result[i].second.first << ' ' << result[i].second.second << ' '
              << result[i].first << endl;
     }
-
+    */
+    cout << res << endl;
     return 0;
 }

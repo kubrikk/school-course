@@ -5,7 +5,7 @@
 using namespace std;
 
 
-bool next_permutation(vector<int>& seq) {
+bool next_permutation(vector< int >& seq) {
 
     int index = seq.size();
     for (int i = seq.size() - 1; i > 0; i--) {
